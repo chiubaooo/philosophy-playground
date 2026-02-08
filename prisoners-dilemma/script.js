@@ -1,5 +1,6 @@
 // 遊戲狀態
 let currentRound = 1;
+let totalRounds = Math.floor(Math.random() * 6) + 5; // 隨機 5-10 輪
 let playerTotalScore = 0;
 let aiTotalScore = 0;
 let playerHistory = [];
@@ -75,7 +76,7 @@ function showResult(playerChoice, aiChoice, payoff) {
 function nextRound() {
     currentRound++;
 
-    if (currentRound > 5) {
+    if (currentRound > totalRounds) {
         endGame();
     } else {
         document.getElementById('currentRound').textContent = currentRound;
@@ -106,10 +107,11 @@ function endGame() {
     }
 
     analysis += `</p><p><strong>你的策略：</strong>認真工作 ${cooperateCount} 次，擺爛摸魚 ${betrayCount} 次。</p>`;
+    analysis += `<p><em>（本次遊戲共進行了 ${totalRounds} 輪）</em></p>`;
 
-    if (cooperateCount === 5) {
+    if (cooperateCount === totalRounds) {
         analysis += `<p>💡 你選擇了完全認真的策略。雖然可能被同事佔便宜，但長期來看，認真工作能建立信任與好名聲。</p>`;
-    } else if (betrayCount === 5) {
+    } else if (betrayCount === totalRounds) {
         analysis += `<p>💡 你選擇了完全擺爛的策略。短期內可能爽到，但長期會導致團隊互不信任，最終大家都受害。</p>`;
     } else {
         analysis += `<p>💡 你採用了混合策略。在團隊合作中，「以牙還牙」（Tit-for-Tat）策略最有效：一開始認真，之後模仿對方的態度。</p>`;
@@ -121,6 +123,7 @@ function endGame() {
 // 重新開始
 function restart() {
     currentRound = 1;
+    totalRounds = Math.floor(Math.random() * 6) + 5; // 重新隨機輪數
     playerTotalScore = 0;
     aiTotalScore = 0;
     playerHistory = [];
