@@ -1,0 +1,394 @@
+:root {
+    --bg-dark: #0a0e27;
+    --bg-card: #1a1f3a;
+    --text-primary: #e0e6ff;
+    --text-secondary: #a0a8cc;
+    --accent-blue: #00d4ff;
+    --accent-red: #ff3366;
+    --accent-green: #00ff88;
+    --border-color: #2a3050;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #0f1535 100%);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 2rem 1rem;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* 標題區 */
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-red));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.tagline {
+    font-size: 1rem;
+    color: var(--accent-blue);
+    font-weight: 500;
+}
+
+/* 卡片樣式 */
+section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--accent-blue);
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+/* 故事區 */
+.story ul {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+.story li {
+    padding: 0.5rem 0;
+    padding-left: 1.5rem;
+    position: relative;
+}
+
+.story li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent-blue);
+}
+
+.question {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: var(--accent-red);
+    font-weight: 600;
+}
+
+/* 遊戲狀態 */
+.game-status {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(255, 51, 102, 0.1));
+}
+
+.round-info {
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 1.5rem;
+    color: var(--accent-blue);
+}
+
+.scores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.score-box {
+    text-align: center;
+    padding: 1rem;
+    background: var(--bg-dark);
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+}
+
+.score-box .label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.score-box .value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--accent-red);
+}
+
+.score-box .unit {
+    font-size: 1rem;
+    color: var(--text-secondary);
+}
+
+/* 按鈕區 */
+.buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.choice-btn {
+    background: var(--bg-dark);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 2rem 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+.choice-btn .icon {
+    font-size: 3rem;
+}
+
+.choice-btn .text {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.choice-btn:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 212, 255, 0.3);
+}
+
+.choice-btn.cooperate:hover {
+    border-color: var(--accent-green);
+    box-shadow: 0 8px 24px rgba(0, 255, 136, 0.3);
+}
+
+.choice-btn.betray:hover {
+    border-color: var(--accent-red);
+    box-shadow: 0 8px 24px rgba(255, 51, 102, 0.3);
+}
+
+.choice-btn:active {
+    transform: translateY(-2px);
+}
+
+/* 結果顯示 */
+.result {
+    animation: fadeIn 0.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.result-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 2rem 0;
+}
+
+.result-item {
+    flex: 1;
+    text-align: center;
+}
+
+.player-label {
+    display: block;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.choice {
+    display: block;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.penalty {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--accent-red);
+}
+
+.vs {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--accent-blue);
+}
+
+.next-btn,
+.restart-btn {
+    display: block;
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--accent-blue), var(--accent-red));
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 1.5rem;
+}
+
+.next-btn:hover,
+.restart-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 212, 255, 0.5);
+}
+
+/* 遊戲結束 */
+.final-scores {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.final-score {
+    text-align: center;
+    padding: 1.5rem;
+    background: var(--bg-dark);
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+}
+
+.final-score .label {
+    display: block;
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.final-score .value {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-red);
+}
+
+.final-score .unit {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+}
+
+.analysis {
+    background: rgba(0, 212, 255, 0.1);
+    border-left: 4px solid var(--accent-blue);
+    padding: 1.5rem;
+    border-radius: 8px;
+    margin: 2rem 0;
+}
+
+/* 反思區 */
+.reflection ul {
+    list-style: none;
+}
+
+.reflection li {
+    padding: 0.75rem 0;
+    padding-left: 2rem;
+    position: relative;
+}
+
+.reflection li::before {
+    content: "💡";
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    padding-top: 2rem;
+}
+
+footer ul {
+    list-style: none;
+    margin: 1rem 0;
+}
+
+footer li {
+    margin: 0.5rem 0;
+}
+
+footer a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: var(--accent-red);
+}
+
+.credit {
+    margin-top: 2rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* 響應式設計 */
+@media (max-width: 640px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .buttons {
+        grid-template-columns: 1fr;
+    }
+
+    .scores,
+    .final-scores {
+        grid-template-columns: 1fr;
+    }
+
+    .result-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .vs {
+        transform: rotate(90deg);
+    }
+}

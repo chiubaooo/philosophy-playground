@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>囚徒困境 | Prisoner's Dilemma</title>
+    <meta name="description" content="互動式囚徒困境遊戲 - 用 3 分鐘理解賽局理論的經典概念">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- 標題區 -->
+        <header>
+            <h1>🎭 囚徒困境</h1>
+            <p class="subtitle">Prisoner's Dilemma</p>
+            <p class="tagline">個人理性 vs 集體利益的永恆博弈</p>
+        </header>
+
+        <!-- 情境說明 -->
+        <section class="story">
+            <h2>📖 故事背景</h2>
+            <p>你和另一名嫌犯被警方逮捕並分開審訊。警方提出交易：</p>
+            <ul>
+                <li><strong>雙方都沉默（合作）</strong>：各判 1 年</li>
+                <li><strong>一方背叛，一方沉默</strong>：背叛者釋放，沉默者判 3 年</li>
+                <li><strong>雙方都背叛</strong>：各判 2 年</li>
+            </ul>
+            <p class="question">你會選擇合作還是背叛？</p>
+        </section>
+
+        <!-- 遊戲狀態 -->
+        <section class="game-status" id="gameStatus">
+            <div class="round-info">
+                <span>第 <span id="currentRound">1</span> / 5 輪</span>
+            </div>
+            <div class="scores">
+                <div class="score-box">
+                    <span class="label">你的總刑期</span>
+                    <span class="value" id="playerScore">0</span>
+                    <span class="unit">年</span>
+                </div>
+                <div class="score-box">
+                    <span class="label">AI 的總刑期</span>
+                    <span class="value" id="aiScore">0</span>
+                    <span class="unit">年</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 互動區 -->
+        <section class="game-area" id="gameArea">
+            <h2>🎮 你的選擇</h2>
+            <div class="buttons">
+                <button class="choice-btn cooperate" id="cooperateBtn">
+                    <span class="icon">🤝</span>
+                    <span class="text">合作（沉默）</span>
+                </button>
+                <button class="choice-btn betray" id="betrayBtn">
+                    <span class="icon">⚔️</span>
+                    <span class="text">背叛（指證）</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 結果顯示 -->
+        <section class="result" id="result" style="display: none;">
+            <h3>本輪結果</h3>
+            <div class="result-content">
+                <div class="result-item">
+                    <span class="player-label">你</span>
+                    <span class="choice" id="playerChoice"></span>
+                    <span class="penalty" id="playerPenalty"></span>
+                </div>
+                <div class="vs">VS</div>
+                <div class="result-item">
+                    <span class="player-label">AI</span>
+                    <span class="choice" id="aiChoice"></span>
+                    <span class="penalty" id="aiPenalty"></span>
+                </div>
+            </div>
+            <button class="next-btn" id="nextBtn">下一輪</button>
+        </section>
+
+        <!-- 遊戲結束 -->
+        <section class="game-over" id="gameOver" style="display: none;">
+            <h2>🏁 遊戲結束</h2>
+            <div class="final-scores">
+                <div class="final-score">
+                    <span class="label">你的總刑期</span>
+                    <span class="value" id="finalPlayerScore"></span>
+                    <span class="unit">年</span>
+                </div>
+                <div class="final-score">
+                    <span class="label">AI 的總刑期</span>
+                    <span class="value" id="finalAiScore"></span>
+                    <span class="unit">年</span>
+                </div>
+            </div>
+            <div class="analysis" id="analysis"></div>
+            <button class="restart-btn" id="restartBtn">重新開始</button>
+        </section>
+
+        <!-- 反思區 -->
+        <section class="reflection">
+            <h2>💭 思考問題</h2>
+            <ul>
+                <li>為什麼「雙方都背叛」是最常見的結果，即使「雙方都合作」對大家更好？</li>
+                <li>在現實生活中，你遇過類似的情境嗎？（例如：團隊合作、商業競爭）</li>
+                <li>如果可以溝通，結果會改變嗎？</li>
+            </ul>
+        </section>
+
+        <!-- 延伸閱讀 -->
+        <footer>
+            <h3>📚 延伸閱讀</h3>
+            <ul>
+                <li><a href="https://zh.wikipedia.org/wiki/%E5%9B%9A%E5%BE%92%E5%9B%B0%E5%A2%83"
+                        target="_blank">維基百科：囚徒困境</a></li>
+                <li><a href="https://www.youtube.com/watch?v=mScpHTIi-kM" target="_blank">YouTube：賽局理論入門</a></li>
+            </ul>
+            <p class="credit">Made with ❤️ by <a href="https://github.com/chiubaooo" target="_blank">chiubaooo</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
