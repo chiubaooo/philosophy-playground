@@ -1,6 +1,6 @@
 // 遊戲狀態
 let currentRound = 1;
-let totalRounds = Math.floor(Math.random() * 6) + 5; // 隨機 5-10 輪
+let totalRounds = Math.floor(Math.random() * 41) + 10; // 隨機 10-50 輪
 let playerTotalScore = 0;
 let aiTotalScore = 0;
 let playerHistory = [];
@@ -25,6 +25,9 @@ const payoffMatrix = {
 
 // AI 人格類型（遊戲開始時隨機選擇）
 let aiPersonality = '';
+let aiMood = 'normal'; // AI 情緒狀態：normal, frustrated, confident
+let consecutiveLosses = 0; // AI 連續失利次數
+
 const personalities = {
     'honest': { name: '老實人', desc: '總是認真工作' },
     'opportunist': { name: '投機者', desc: '前期認真，後期擺爛' },
@@ -45,30 +48,64 @@ function getAiChoice() {
         else aiPersonality = 'slacker';
     }
 
+    // 檢查情緒變化（每輪 10% 機率情緒波動）
+    if (Math.random() < 0.1) {
+        if (consecutiveLosses >= 2) {
+            aiMood = 'frustrated'; // 連續失利 → 沮喪
+        } else if (aiTotalScore > playerTotalScore + 5) {
+            aiMood = 'confident'; // 大幅領先 → 自信
+        } else {
+            aiMood = 'normal';
+        }
+    }
+
+    let baseChoice = '';
+
     switch (aiPersonality) {
         case 'honest':
-            return 'cooperate';
+            baseChoice = 'cooperate';
+            break;
 
         case 'slacker':
-            return 'betray';
+            baseChoice = 'betray';
+            break;
 
         case 'opportunist':
             // 前半段認真，後半段擺爛
-            return currentRound <= Math.ceil(totalRounds / 2) ? 'cooperate' : 'betray';
+            baseChoice = currentRound <= Math.ceil(totalRounds / 2) ? 'cooperate' : 'betray';
+            break;
 
         case 'random':
-            return Math.random() < 0.5 ? 'cooperate' : 'betray';
+            baseChoice = Math.random() < 0.5 ? 'cooperate' : 'betray';
+            break;
 
         case 'retaliator':
             // 以牙還牙：第一輪隨機，之後模仿玩家上一輪
             if (playerHistory.length === 0) {
-                return Math.random() < 0.5 ? 'cooperate' : 'betray';
+                baseChoice = Math.random() < 0.5 ? 'cooperate' : 'betray';
+            } else {
+                baseChoice = playerHistory[playerHistory.length - 1];
             }
-            return playerHistory[playerHistory.length - 1];
+            break;
 
         default:
-            return 'cooperate';
+            baseChoice = 'cooperate';
     }
+
+    // 情緒影響決策
+    if (aiMood === 'frustrated') {
+        // 沮喪時：30% 機率改變策略（報復性擺爛）
+        if (Math.random() < 0.3) {
+            return 'betray';
+        }
+    } else if (aiMood === 'confident') {
+        // 自信時：20% 機率變得更合作（展現大度）
+        if (Math.random() < 0.2) {
+            return 'cooperate';
+        }
+    }
+
+    return baseChoice;
 }
 
 // 處理玩家選擇
@@ -105,6 +142,13 @@ function showResult(playerChoice, aiChoice, payoff) {
     // 更新總分顯示
     document.getElementById('playerScore').textContent = playerTotalScore;
     document.getElementById('aiScore').textContent = aiTotalScore;
+
+    // 追蹤 AI 連續失利
+    if (payoff.ai < payoff.player) {
+        consecutiveLosses++;
+    } else {
+        consecutiveLosses = 0;
+    }
 
     result.style.display = 'block';
 }
@@ -161,8 +205,10 @@ function endGame() {
 // 重新開始
 function restart() {
     currentRound = 1;
-    totalRounds = Math.floor(Math.random() * 6) + 5; // 重新隨機輪數
+    totalRounds = Math.floor(Math.random() * 41) + 10; // 重新隨機輪數 10-50
     aiPersonality = ''; // 重置 AI 人格
+    aiMood = 'normal'; // 重置 AI 情緒
+    consecutiveLosses = 0; // 重置連續失利
     playerTotalScore = 0;
     aiTotalScore = 0;
     playerHistory = [];
