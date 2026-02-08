@@ -40,10 +40,10 @@ function getAiChoice() {
     if (!aiPersonality) {
         // 第一輪：隨機選擇人格（權重分配）
         const rand = Math.random();
-        if (rand < 0.15) aiPersonality = 'honest';
+        if (rand < 0.05) aiPersonality = 'honest';
         else if (rand < 0.35) aiPersonality = 'opportunist';
-        else if (rand < 0.55) aiPersonality = 'random';
-        else if (rand < 0.85) aiPersonality = 'retaliator';
+        else if (rand < 0.60) aiPersonality = 'random';
+        else if (rand < 0.95) aiPersonality = 'retaliator';
         else aiPersonality = 'slacker';
     }
 
@@ -109,6 +109,10 @@ function getAiChoice() {
 
 // 處理玩家選擇
 function handleChoice(playerChoice) {
+    // 禁用按鈕防止重複點擊
+    cooperateBtn.disabled = true;
+    betrayBtn.disabled = true;
+
     const aiChoice = getAiChoice();
     const key = `${playerChoice}-${aiChoice}`;
     const payoff = payoffMatrix[key];
@@ -167,6 +171,10 @@ function nextRound() {
         document.getElementById('currentRound').textContent = currentRound;
         result.style.display = 'none';
         gameArea.style.display = 'block';
+
+        // 重新啟用按鈕
+        cooperateBtn.disabled = false;
+        betrayBtn.disabled = false;
     }
 }
 
