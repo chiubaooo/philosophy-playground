@@ -23,20 +23,57 @@ const payoffMatrix = {
     'betray-betray': { player: 3, ai: 3 }
 };
 
-// AI 策略：Tit-for-Tat
-function getAIChoice() {
-    if (currentRound === 1) {
-        // 第一輪隨機選擇
-        return Math.random() < 0.5 ? 'cooperate' : 'betray';
-    } else {
-        // 之後模仿玩家上一輪的選擇
-        return playerHistory[playerHistory.length - 1];
+// AI 人格類型（遊戲開始時隨機選擇）
+let aiPersonality = '';
+const personalities = {
+    'honest': { name: '老實人', desc: '總是認真工作' },
+    'opportunist': { name: '投機者', desc: '前期認真，後期擺爛' },
+    'random': { name: '隨機者', desc: '完全隨機選擇' },
+    'retaliator': { name: '報復者', desc: '以牙還牙策略' },
+    'slacker': { name: '懶人', desc: '總是擺爛' }
+};
+
+// AI 策略決策
+function getAiChoice() {
+    if (!aiPersonality) {
+        // 第一輪：隨機選擇人格（權重分配）
+        const rand = Math.random();
+        if (rand < 0.15) aiPersonality = 'honest';
+        else if (rand < 0.35) aiPersonality = 'opportunist';
+        else if (rand < 0.55) aiPersonality = 'random';
+        else if (rand < 0.85) aiPersonality = 'retaliator';
+        else aiPersonality = 'slacker';
+    }
+
+    switch (aiPersonality) {
+        case 'honest':
+            return 'cooperate';
+
+        case 'slacker':
+            return 'betray';
+
+        case 'opportunist':
+            // 前半段認真，後半段擺爛
+            return currentRound <= Math.ceil(totalRounds / 2) ? 'cooperate' : 'betray';
+
+        case 'random':
+            return Math.random() < 0.5 ? 'cooperate' : 'betray';
+
+        case 'retaliator':
+            // 以牙還牙：第一輪隨機，之後模仿玩家上一輪
+            if (playerHistory.length === 0) {
+                return Math.random() < 0.5 ? 'cooperate' : 'betray';
+            }
+            return playerHistory[playerHistory.length - 1];
+
+        default:
+            return 'cooperate';
     }
 }
 
 // 處理玩家選擇
 function handleChoice(playerChoice) {
-    const aiChoice = getAIChoice();
+    const aiChoice = getAiChoice();
     const key = `${playerChoice}-${aiChoice}`;
     const payoff = payoffMatrix[key];
 
@@ -107,6 +144,7 @@ function endGame() {
     }
 
     analysis += `</p><p><strong>你的策略：</strong>認真工作 ${cooperateCount} 次，擺爛摸魚 ${betrayCount} 次。</p>`;
+    analysis += `<p><strong>同事的人格：</strong>${personalities[aiPersonality].name}（${personalities[aiPersonality].desc}）</p>`;
     analysis += `<p><em>（本次遊戲共進行了 ${totalRounds} 輪）</em></p>`;
 
     if (cooperateCount === totalRounds) {
@@ -124,6 +162,7 @@ function endGame() {
 function restart() {
     currentRound = 1;
     totalRounds = Math.floor(Math.random() * 6) + 5; // 重新隨機輪數
+    aiPersonality = ''; // 重置 AI 人格
     playerTotalScore = 0;
     aiTotalScore = 0;
     playerHistory = [];
