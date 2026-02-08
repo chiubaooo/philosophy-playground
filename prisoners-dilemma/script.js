@@ -14,12 +14,12 @@ const gameOver = document.getElementById('gameOver');
 const nextBtn = document.getElementById('nextBtn');
 const restartBtn = document.getElementById('restartBtn');
 
-// 刑期矩陣
+// 績效分數矩陣（分數越高越好）
 const payoffMatrix = {
-    'cooperate-cooperate': { player: 1, ai: 1 },
-    'cooperate-betray': { player: 3, ai: 0 },
-    'betray-cooperate': { player: 0, ai: 3 },
-    'betray-betray': { player: 2, ai: 2 }
+    'cooperate-cooperate': { player: 8, ai: 8 },
+    'cooperate-betray': { player: 5, ai: 10 },
+    'betray-cooperate': { player: 10, ai: 5 },
+    'betray-betray': { player: 3, ai: 3 }
 };
 
 // AI 策略：Tit-for-Tat
@@ -56,13 +56,13 @@ function handleChoice(playerChoice) {
 
 // 顯示本輪結果
 function showResult(playerChoice, aiChoice, payoff) {
-    const playerChoiceText = playerChoice === 'cooperate' ? '🤝 合作' : '⚔️ 背叛';
-    const aiChoiceText = aiChoice === 'cooperate' ? '🤝 合作' : '⚔️ 背叛';
+    const playerChoiceText = playerChoice === 'cooperate' ? '💪 認真工作' : '😴 擺爛摸魚';
+    const aiChoiceText = aiChoice === 'cooperate' ? '💪 認真工作' : '😴 擺爛摸魚';
 
     document.getElementById('playerChoice').textContent = playerChoiceText;
     document.getElementById('aiChoice').textContent = aiChoiceText;
-    document.getElementById('playerPenalty').textContent = `+${payoff.player} 年`;
-    document.getElementById('aiPenalty').textContent = `+${payoff.ai} 年`;
+    document.getElementById('playerPenalty').textContent = `+${payoff.player} 分`;
+    document.getElementById('aiPenalty').textContent = `+${payoff.ai} 分`;
 
     // 更新總分顯示
     document.getElementById('playerScore').textContent = playerTotalScore;
@@ -97,22 +97,22 @@ function endGame() {
     const betrayCount = playerHistory.filter(c => c === 'betray').length;
 
     let analysis = '';
-    if (playerTotalScore < aiTotalScore) {
-        analysis = `<h3>🎉 你贏了！</h3><p>你的總刑期比 AI 少 ${aiTotalScore - playerTotalScore} 年。`;
-    } else if (playerTotalScore > aiTotalScore) {
-        analysis = `<h3>😔 AI 贏了</h3><p>AI 的總刑期比你少 ${playerTotalScore - aiTotalScore} 年。`;
+    if (playerTotalScore > aiTotalScore) {
+        analysis = `<h3>🎉 你贏了！</h3><p>你的總績效比同事高 ${playerTotalScore - aiTotalScore} 分。`;
+    } else if (playerTotalScore < aiTotalScore) {
+        analysis = `<h3>😔 同事贏了</h3><p>同事的總績效比你高 ${aiTotalScore - playerTotalScore} 分。`;
     } else {
-        analysis = `<h3>🤝 平手！</h3><p>你和 AI 的總刑期相同。`;
+        analysis = `<h3>🤝 平手！</h3><p>你和同事的總績效相同。`;
     }
 
-    analysis += `</p><p><strong>你的策略：</strong>合作 ${cooperateCount} 次，背叛 ${betrayCount} 次。</p>`;
+    analysis += `</p><p><strong>你的策略：</strong>認真工作 ${cooperateCount} 次，擺爛摸魚 ${betrayCount} 次。</p>`;
 
     if (cooperateCount === 5) {
-        analysis += `<p>💡 你選擇了完全合作的策略。在單次賽局中這可能不是最優解，但在重複賽局中，合作往往能帶來更好的長期結果。</p>`;
+        analysis += `<p>💡 你選擇了完全認真的策略。雖然可能被同事佔便宜，但長期來看，認真工作能建立信任與好名聲。</p>`;
     } else if (betrayCount === 5) {
-        analysis += `<p>💡 你選擇了完全背叛的策略。雖然短期內可能獲利，但在重複賽局中，這會導致雙方都陷入「互相背叛」的惡性循環。</p>`;
+        analysis += `<p>💡 你選擇了完全擺爛的策略。短期內可能爽到，但長期會導致團隊互不信任，最終大家都受害。</p>`;
     } else {
-        analysis += `<p>💡 你採用了混合策略。在囚徒困境中，「以牙還牙」（Tit-for-Tat）策略被證明是最有效的：第一次合作，之後模仿對方上一次的選擇。</p>`;
+        analysis += `<p>💡 你採用了混合策略。在團隊合作中，「以牙還牙」（Tit-for-Tat）策略最有效：一開始認真，之後模仿對方的態度。</p>`;
     }
 
     document.getElementById('analysis').innerHTML = analysis;

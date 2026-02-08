@@ -21,13 +21,13 @@
         <!-- 情境說明 -->
         <section class="story">
             <h2>📖 故事背景</h2>
-            <p>你和另一名嫌犯被警方逮捕並分開審訊。警方提出交易：</p>
+            <p>你和同事一起負責一個重要專案。你們可以選擇認真工作或擺爛讓對方扛：</p>
             <ul>
-                <li><strong>雙方都沉默（合作）</strong>：各判 1 年</li>
-                <li><strong>一方背叛，一方沉默</strong>：背叛者釋放，沉默者判 3 年</li>
-                <li><strong>雙方都背叛</strong>：各判 2 年</li>
+                <li><strong>雙方都認真（合作）</strong>：專案成功，各得 8 分績效</li>
+                <li><strong>一方認真，一方擺爛</strong>：認真者累死得 5 分，擺爛者爽爽得 10 分</li>
+                <li><strong>雙方都擺爛（背叛）</strong>：專案失敗，各得 3 分</li>
             </ul>
-            <p class="question">你會選擇合作還是背叛？</p>
+            <p class="question">你會選擇認真工作還是擺爛？</p>
         </section>
 
         <!-- 遊戲狀態 -->
@@ -37,14 +37,14 @@
             </div>
             <div class="scores">
                 <div class="score-box">
-                    <span class="label">你的總刑期</span>
+                    <span class="label">你的總績效</span>
                     <span class="value" id="playerScore">0</span>
-                    <span class="unit">年</span>
+                    <span class="unit">分</span>
                 </div>
                 <div class="score-box">
-                    <span class="label">AI 的總刑期</span>
+                    <span class="label">同事的總績效</span>
                     <span class="value" id="aiScore">0</span>
-                    <span class="unit">年</span>
+                    <span class="unit">分</span>
                 </div>
             </div>
         </section>
@@ -54,12 +54,12 @@
             <h2>🎮 你的選擇</h2>
             <div class="buttons">
                 <button class="choice-btn cooperate" id="cooperateBtn">
-                    <span class="icon">🤝</span>
-                    <span class="text">合作（沉默）</span>
+                    <span class="icon">💪</span>
+                    <span class="text">認真工作</span>
                 </button>
                 <button class="choice-btn betray" id="betrayBtn">
-                    <span class="icon">⚔️</span>
-                    <span class="text">背叛（指證）</span>
+                    <span class="icon">😴</span>
+                    <span class="text">擺爛摸魚</span>
                 </button>
             </div>
         </section>
@@ -88,14 +88,14 @@
             <h2>🏁 遊戲結束</h2>
             <div class="final-scores">
                 <div class="final-score">
-                    <span class="label">你的總刑期</span>
+                    <span class="label">你的總績效</span>
                     <span class="value" id="finalPlayerScore"></span>
-                    <span class="unit">年</span>
+                    <span class="unit">分</span>
                 </div>
                 <div class="final-score">
-                    <span class="label">AI 的總刑期</span>
+                    <span class="label">同事的總績效</span>
                     <span class="value" id="finalAiScore"></span>
-                    <span class="unit">年</span>
+                    <span class="unit">分</span>
                 </div>
             </div>
             <div class="analysis" id="analysis"></div>
