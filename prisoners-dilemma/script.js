@@ -12,7 +12,6 @@ const betrayBtn = document.getElementById('betrayBtn');
 const gameArea = document.getElementById('gameArea');
 const result = document.getElementById('result');
 const gameOver = document.getElementById('gameOver');
-const nextBtn = document.getElementById('nextBtn');
 const restartBtn = document.getElementById('restartBtn');
 
 // 績效分數矩陣（分數越高越好）
@@ -151,6 +150,11 @@ function showResult(playerChoice, aiChoice, payoff) {
     }
 
     result.style.display = 'block';
+
+    // 自動進入下一輪（延遲 1.5 秒）
+    setTimeout(() => {
+        nextRound();
+    }, 1500);
 }
 
 // 下一輪
@@ -225,5 +229,4 @@ function restart() {
 // 事件監聽
 cooperateBtn.addEventListener('click', () => handleChoice('cooperate'));
 betrayBtn.addEventListener('click', () => handleChoice('betray'));
-nextBtn.addEventListener('click', nextRound);
 restartBtn.addEventListener('click', restart);
